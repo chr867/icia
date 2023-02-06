@@ -8,5 +8,6 @@
 </head>
 <body>
 <h3>main.jsp</h3>
+${logout}
 </body>
 </html>
