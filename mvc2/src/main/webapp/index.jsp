@@ -12,7 +12,7 @@
 	아이디: <input type="text" name="id"> <br>
 	비번: <input type="password" name="pw"> <br>
 	<span> ${msg} </span> <br>
-	<button>로그인</button> <br>
+	<button>로그인</button>
 	<a href="joinFrm.jsp">회원가입</a>
 </form>
 </body>
