@@ -9,5 +9,6 @@
 <body>
 <h3>main.jsp</h3>
 ${logout}
+${accessresult}
 </body>
 </html>

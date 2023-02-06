@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import bean.Member;
+
 public class MemberDao {
 	Connection con;
 	PreparedStatement pstmt;
@@ -37,4 +39,24 @@ public class MemberDao {
 		JdbcUtil.close(con, pstmt, rs);
 	}
 
+	public boolean memberJoin(Member mb) {
+		String sql="INSERT INTO MEMBER(ID,PW,NAME,GENDER) VALUES(?,?,?,?)";
+		int result=0;
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1,mb.getId());
+			pstmt.setString(2,mb.getPw());
+			pstmt.setString(3,mb.getName());
+			pstmt.setString(4,mb.getGender());
+			result=pstmt.executeUpdate(); //update, delete, insert
+			if(result!=0) {
+				return true; //회원가입 성공
+			}
+		} catch (SQLException e) {
+			System.out.println("회원가입 예외 발생");
+			e.printStackTrace();
+		} //파싱1번
+		
+		return false; //실패
+	}
 }

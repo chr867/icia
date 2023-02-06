@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.Forward;
 
-@WebServlet({"/loginfrm","/access","/joinfrm","/memberjoin"})
+@WebServlet({"/loginfrm","/access","/joinfrm","/memberjoin","/logout","/memberlist","/memberinfo"})
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class MemberController extends HttpServlet {
 			fw=mp.access();
 			
 		}else if(cmd.equals("/memberjoin")) {
-			fw=mp.memberJoin();
+			fw=mp.memberjoin();
 			
 		}else if(cmd.equals("/logout")) {
 			fw=mp.logout();
@@ -51,7 +51,7 @@ public class MemberController extends HttpServlet {
 			if(fw.isRedirect()) {
 				resp.sendRedirect(fw.getPath());
 			}else {
-				req.getRequestDispatcher(fw.getPath());
+				req.getRequestDispatcher(fw.getPath()).forward(req, resp);
 			}
 		}
 	}
