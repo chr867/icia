@@ -1,8 +1,11 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -117,7 +120,7 @@ public class MovingPage {
 		mDao.close();
 		Forward fw=new Forward();
 		if(mList != null) {
-//			req.setAttribute("mList", makeListHtml(mList));
+			req.setAttribute("mList", makeListHtml(mList));
 //			req.setAttribute("mList", mList); //jstl
 			Gson gson=new Gson();
 			String json=gson.toJson(mList); //자바객체 --> json
@@ -134,16 +137,18 @@ public class MovingPage {
 
 	private String makeListHtml(ArrayList<String> mList) {
 		StringBuilder sb=new StringBuilder();
-		sb.append("<table border='1'>");
-		for(int i=0;i<mList.size();i++) {
-			System.out.println(mList.get(i));
-			sb.append("<tr align='center'>");
-			sb.append("<td><a href='memberinfo?id="+mList.get(i)+"'>"+mList.get(i)+"</a></td>");
-			sb.append("<td><a href='memberdelete?id="+mList.get(i)+"'>삭제</a></td>");
-			sb.append("</tr>");
-		}
-		sb.append("</table>");
+		//for문 
+//		sb.append("<table border='1'>");
+//		for(int i=0;i<mList.size();i++) {
+//			System.out.println(mList.get(i));
+//			sb.append("<tr align='center'>");
+//			sb.append("<td><a href='memberinfo?id="+mList.get(i)+"'>"+mList.get(i)+"</a></td>");
+//			sb.append("<td><a href='memberdelete?id="+mList.get(i)+"'>삭제</a></td>");
+//			sb.append("</tr>");
+//		}
+//		sb.append("</table>");
 	
+		//iterator
 //		Iterator<String> i=mList.iterator();
 //		while(i.hasNext()) {
 //			System.out.println(i.next());
@@ -153,6 +158,12 @@ public class MovingPage {
 //			
 //		}
 		
+		//stream foreach
+		Stream<String> stream = mList.stream();
+		sb.append("<table border='1'>");
+		stream.forEach(id -> sb.append("<tr align='center'>").append("<td><a href='memberinfo?id="+id+"'>"+id+"</a></td>")
+				.append("<td><a href='memberdelete?id="+id+"'>삭제</a></td>")); 
+		sb.append("</table>");
 		return sb.toString();
 	}
 
