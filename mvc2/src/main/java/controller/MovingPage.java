@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import bean.Forward;
 import bean.Member;
 import dao.MemberDao;
@@ -115,7 +117,12 @@ public class MovingPage {
 		mDao.close();
 		Forward fw=new Forward();
 		if(mList != null) {
-			req.setAttribute("mList", makeListHtml(mList));
+//			req.setAttribute("mList", makeListHtml(mList));
+//			req.setAttribute("mList", mList); //jstl
+			Gson gson=new Gson();
+			String json=gson.toJson(mList);
+//			System.out.println("json="+json);
+			req.setAttribute("mListJson", json);
 			fw.setPath("memberList.jsp");
 			fw.setRedirect(false);
 		}else {
@@ -138,8 +145,7 @@ public class MovingPage {
 		sb.append("</table>");
 	
 //		Iterator<String> i=mList.iterator();
-//		if(i.hasNext()) {
-//			System.out.println(i);
+//		while(i.hasNext()) {
 //			System.out.println(i.next());
 //		}
 //		
@@ -151,10 +157,14 @@ public class MovingPage {
 	}
 
 	public Forward memberDelete() {
+		
+		
 		return null;
 	}
 
 	public Forward memberInfo() {
+		
+		
 		return null;
 	}
 	
