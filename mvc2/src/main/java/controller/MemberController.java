@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import bean.Forward;
 
 @WebServlet({"/loginfrm", "/access", "/joinfrm", "/memberjoin", "/logout"
-			,"/memberlist" ,"/memberinfo"})
+			,"/memberlist" ,"/memberinfo","/memberdelete"})
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class MemberController extends HttpServlet {
 		}else if(cmd.equals("/memberdelete")) {
 			fw=mp.memberDelete();
 
-		}else if(cmd.equals("/memberlnfo")) {
+		}else if(cmd.equals("/memberinfo")) {
 			fw=mp.memberInfo();
 		}
 

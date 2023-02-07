@@ -8,5 +8,6 @@
 </head>
 <body>
 <h3>memberInfo.jsp - 일반회원 정보</h3>
+${msg}
 </body>
 </html>

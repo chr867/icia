@@ -10,6 +10,7 @@
 </head>
 <body>
 <h3>memberList.jsp - 일반회원 목록</h3>
+${msg}
 <%-- ${mList} --%>
 <!-- jstl: 간편하지만, 가독성이 떨어짐. -->
 	<table border="1">
@@ -33,7 +34,7 @@
 		for(let id of mList){
 			tbList+='<tr>';
 			tbList+='<td><a href="memberinfo?id='+id+'">'+id+'</a></td>';
-			tbList+='<td><a href="memberdelite?id='+id+'">삭제</a></td>';
+			tbList+='<td><a href="memberdelete?id='+id+'">삭제</a></td>';
 			tbList+='</tr>';
 		}
 		tbList+='</table>';

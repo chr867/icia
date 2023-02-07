@@ -3,9 +3,13 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 import bean.Member;
 
@@ -73,6 +77,45 @@ public class MemberDao {
 			return mList;
 		} catch (SQLException e) {
 			System.out.println("DAO memberList 예외 발생");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public boolean memberDelete(String id) {
+		String sql="DELETE FROM MEMBER WHERE ID=?";
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setNString(1, id);
+			int result;
+			result=pstmt.executeUpdate();
+			if(result!=0) return true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public String memberInfo(String id) {
+		String sql="SELECT * FROM MEMBER WHERE ID=?";
+		String mbInfo="";
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setNString(1, id);
+			rs=pstmt.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnCount = rsmd.getColumnCount();
+			if(rs.next()) {
+				for(int i=1;i<=columnCount;i++) {
+					mbInfo+=rsmd.getColumnName(i)+": "+rs.getNString(i);
+					mbInfo+=" ";
+				}
+			}
+			return mbInfo;
+		} catch (SQLException e) {
+			System.out.println("memberInfo 예외 발생");
 			e.printStackTrace();
 		}
 		return null;

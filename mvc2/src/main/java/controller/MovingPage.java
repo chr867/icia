@@ -157,15 +157,32 @@ public class MovingPage {
 	}
 
 	public Forward memberDelete() {
-		
-		
-		return null;
+		Forward fw=new Forward();
+		MemberDao mDao=new MemberDao();
+		boolean result=mDao.memberDelete(req.getParameter("id"));
+		mDao.close();
+		if(result) {
+			fw.setPath("memberList.jsp").setRedirect(true);
+		}else {
+			req.setAttribute("msg", "삭제 실패");
+			fw.setPath("memberList.jsp").setRedirect(false);
+		}
+		return fw;
 	}
 
 	public Forward memberInfo() {
-		
-		
-		return null;
+		Forward fw=new Forward();
+		MemberDao mDao=new MemberDao();
+		String mbInfo=mDao.memberInfo(req.getParameter("id"));
+		mDao.close();
+		if(mbInfo!=null) {
+			req.setAttribute("msg", mbInfo);
+			fw.setPath("memberInfo.jsp").setRedirect(false);
+		}else {
+			req.setAttribute("msg", "정보 검색 실패");
+			fw.setPath("memberInfo.jsp").setRedirect(true);
+		}
+		return fw;
 	}
 	
 }
