@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import bean.Member;
@@ -35,10 +36,6 @@ public class MemberDao {
 		return false;
 	}
 
-	public void close() {
-		JdbcUtil.close(con, pstmt, rs);
-	}
-
 	public boolean memberJoin(Member mb) {
 		String sql="INSERT INTO MEMBER(ID,PW,NAME,GENDER) VALUES(?,?,?,?)";
 		int result=0;
@@ -59,4 +56,26 @@ public class MemberDao {
 		
 		return false; //실패
 	}
+	
+	public void close() {
+		JdbcUtil.close(con, pstmt, rs);
+	}
+
+	public ArrayList<String> memberList() {
+		ArrayList<String> mList=new ArrayList<>();
+		String sql="SELECT ID FROM MEMBER";
+		try {
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				mList.add(rs.getNString("id"));
+			}
+			return mList;
+		} catch (SQLException e) {
+			System.out.println("DAO memberList 예외 발생");
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

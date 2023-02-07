@@ -8,5 +8,6 @@
 </head>
 <body>
 <h3>memberList.jsp - 일반회원 목록</h3>
+${mList}
 </body>
 </html>

@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,12 +58,13 @@ public class MovingPage {
 	}
 
 	private Object makeResultHtml() {
-		HttpSession session=req.getSession();
+		String id=req.getSession().getAttribute("id").toString();
+		
 		String str="";
-		if(session.getAttribute("id").equals("admin")) {
-			str+="<div><a href='memberlist'>멤버 목록</a></div>";
+		if(id.equals("admin")) {
+			str+="<div><a href='memberlist'>관리자 모드(회원 목록)</a></div>";
 		}else {
-			str+="<div><a href='memberinfo'>자기 정보</a></div>";
+			str+="<div><a href=\"memberinfo?id="+id+"\">내 정보 확인</a></div>";
 		}
 		return str;
 	}
@@ -99,11 +102,52 @@ public class MovingPage {
 	}
 
 	public Forward logout() {
-		return null;
+		req.getSession().invalidate();
+		Forward fw=new Forward();
+		fw.setPath("./");
+		fw.setRedirect(true);
+		return fw;
 	}
 
 	public Forward memberList() {
-		return null;
+		MemberDao mDao=new MemberDao();
+		ArrayList<String> mList=mDao.memberList();
+		mDao.close();
+		Forward fw=new Forward();
+		if(mList != null) {
+			req.setAttribute("mList", makeListHtml(mList));
+			fw.setPath("memberList.jsp");
+			fw.setRedirect(false);
+		}else {
+			fw.setPath("main.jsp");
+			fw.setRedirect(true);
+		}
+		return fw;
+	}
+
+	private String makeListHtml(ArrayList<String> mList) {
+		StringBuilder sb=new StringBuilder();
+		sb.append("<table border='1'>");
+		for(int i=0;i<mList.size();i++) {
+			System.out.println(mList.get(i));
+			sb.append("<tr align='center'>");
+			sb.append("<td><a href='memberinfo?id="+mList.get(i)+"'>"+mList.get(i)+"</a></td>");
+			sb.append("<td><a href='memberdelete?id="+mList.get(i)+"'>삭제</a></td>");
+			sb.append("</tr>");
+		}
+		sb.append("</table>");
+	
+//		Iterator<String> i=mList.iterator();
+//		if(i.hasNext()) {
+//			System.out.println(i);
+//			System.out.println(i.next());
+//		}
+//		
+//		for (String string : mList) {
+//			
+//		}
+		
+		return sb.toString();
 	}
 
 	public Forward memberDelete() {
