@@ -120,7 +120,7 @@ public class MovingPage {
 //			req.setAttribute("mList", makeListHtml(mList));
 //			req.setAttribute("mList", mList); //jstl
 			Gson gson=new Gson();
-			String json=gson.toJson(mList);
+			String json=gson.toJson(mList); //자바객체 --> json
 //			System.out.println("json="+json);
 			req.setAttribute("mListJson", json);
 			fw.setPath("memberList.jsp");
@@ -173,10 +173,12 @@ public class MovingPage {
 	public Forward memberInfo() {
 		Forward fw=new Forward();
 		MemberDao mDao=new MemberDao();
-		String mbInfo=mDao.memberInfo(req.getParameter("id"));
+		HashMap<String, String> hMap=mDao.memberInfo(req.getParameter("id"));
 		mDao.close();
-		if(mbInfo!=null) {
-			req.setAttribute("msg", mbInfo);
+		if(hMap!=null) {
+//			req.setAttribute("hMap", hMap);
+			String json=new Gson().toJson(hMap);
+			req.setAttribute("mb", json);
 			fw.setPath("memberInfo.jsp").setRedirect(false);
 		}else {
 			req.setAttribute("msg", "정보 검색 실패");

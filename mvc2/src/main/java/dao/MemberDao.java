@@ -98,8 +98,9 @@ public class MemberDao {
 		return false;
 	}
 
-	public String memberInfo(String id) {
+	public HashMap<String, String> memberInfo(String id) {
 		String sql="SELECT * FROM MEMBER WHERE ID=?";
+		HashMap<String, String> hMap=new HashMap<>();
 		String mbInfo="";
 		try {
 			pstmt=con.prepareStatement(sql);
@@ -109,11 +110,10 @@ public class MemberDao {
 			int columnCount = rsmd.getColumnCount();
 			if(rs.next()) {
 				for(int i=1;i<=columnCount;i++) {
-					mbInfo+=rsmd.getColumnName(i)+": "+rs.getNString(i);
-					mbInfo+=" ";
+					hMap.put(rsmd.getColumnLabel(i), rs.getNString(i));
 				}
 			}
-			return mbInfo;
+			return hMap;
 		} catch (SQLException e) {
 			System.out.println("memberInfo 예외 발생");
 			e.printStackTrace();
