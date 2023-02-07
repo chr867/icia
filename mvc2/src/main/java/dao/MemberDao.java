@@ -101,7 +101,6 @@ public class MemberDao {
 	public HashMap<String, String> memberInfo(String id) {
 		String sql="SELECT * FROM MEMBER WHERE ID=?";
 		HashMap<String, String> hMap=new HashMap<>();
-		String mbInfo="";
 		try {
 			pstmt=con.prepareStatement(sql);
 			pstmt.setNString(1, id);

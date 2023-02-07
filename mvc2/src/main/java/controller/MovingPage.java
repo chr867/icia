@@ -162,10 +162,10 @@ public class MovingPage {
 		boolean result=mDao.memberDelete(req.getParameter("id"));
 		mDao.close();
 		if(result) {
-			fw.setPath("memberList.jsp").setRedirect(true);
+			fw.setPath("./memberlist").setRedirect(true);
 		}else {
 			req.setAttribute("msg", "삭제 실패");
-			fw.setPath("memberList.jsp").setRedirect(false);
+			fw.setPath("./memberlist").setRedirect(false);
 		}
 		return fw;
 	}
@@ -176,7 +176,7 @@ public class MovingPage {
 		HashMap<String, String> hMap=mDao.memberInfo(req.getParameter("id"));
 		mDao.close();
 		if(hMap!=null) {
-//			req.setAttribute("hMap", hMap);
+			req.setAttribute("hMap", hMap);
 			String json=new Gson().toJson(hMap);
 			req.setAttribute("mb", json);
 			fw.setPath("memberInfo.jsp").setRedirect(false);
