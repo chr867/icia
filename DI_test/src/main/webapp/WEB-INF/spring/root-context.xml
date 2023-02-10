@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<bean class="com.test.demo1.di.Student">
+		<!-- 생성자 주입 new Student(new Person()) -->
+		<constructor-arg ref="person"></constructor-arg>
+		<!-- setter 주입: 관계가 복잡해진다.  -->
+		<property name="person" ref="person"></property>
+	</bean>
+	
+	<!-- bean 태그로 생성된 객체는 IoC 컨테이너에 저장됨 -->
+	<bean id="person" class="com.test.demo1.di.Person">
+		<!-- new Person(false) -->
+		<constructor-arg value="true"></constructor-arg>
+	</bean>
+
+	<bean id="a1" class="com.test.demo1.di.A" scope="prototype">
+		<constructor-arg value="10"></constructor-arg>
+		<constructor-arg value="Hello"></constructor-arg>
+	</bean>
+	
+	<bean id="a2" class="com.test.demo1.di.A" scope="prototype">
+		<constructor-arg value="20"></constructor-arg>
+		<constructor-arg value="Bye"></constructor-arg>
+	</bean>
+
+</beans>
