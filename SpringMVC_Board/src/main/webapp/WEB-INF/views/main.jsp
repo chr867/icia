@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>main.jsp</h1>
+${id}
 ${msg}
 </body>
 </html>

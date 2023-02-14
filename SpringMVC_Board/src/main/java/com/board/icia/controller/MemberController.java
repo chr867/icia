@@ -1,5 +1,7 @@
 package com.board.icia.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,10 +39,10 @@ public class MemberController {
 	}
 		
 	@PostMapping(value="/access")
-	public ModelAndView access(MemberDto.access mb) {
-		System.out.println("ID: "+mb.getM_id()+"\nPW: "+mb.getM_pw());
+	public ModelAndView access(MemberDto.access mb, HttpSession session) {
 		boolean result=mm.access(mb);
 		if(result) {
+			session.setAttribute("id", mb.getM_id());
 			return new ModelAndView("main").addObject("msg","login ok");
 		}else {
 			return new ModelAndView("home").addObject("msg","login Fail");

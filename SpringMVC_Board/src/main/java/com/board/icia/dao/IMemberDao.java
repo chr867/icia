@@ -7,4 +7,7 @@ public interface IMemberDao {
 	boolean access(MemberDto.access mb);
 	
 	boolean join(MemberDto.join mb);
+
+	String getSecurityPw(String m_id);
+
 }
