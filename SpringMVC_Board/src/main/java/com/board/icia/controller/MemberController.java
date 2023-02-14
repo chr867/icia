@@ -2,13 +2,12 @@ package com.board.icia.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.board.icia.dto.Member;
+import com.board.icia.dto.MemberDto;
 import com.board.icia.service.MemberMM;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,7 @@ public class MemberController {
 	private MemberMM mm;
 	
 	@GetMapping(value="/access")
-	public ModelAndView access(Member mb) {
+	public ModelAndView access(MemberDto.access mb) {
 		System.out.println("ID: "+mb.getM_id()+"\nPW: "+mb.getM_pw());
 		boolean result=mm.access(mb);
 		if(result) {
@@ -33,7 +32,7 @@ public class MemberController {
 	
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView home(ModelAndView mav,Member mb) {
+	public ModelAndView home(ModelAndView mav,MemberDto mb) {
 //		log.info("로그");
 //		ModelAndView mav=mm.access(mb);
 //		mav.addObject("msg","MAV-OK").setViewName("home");
