@@ -22,10 +22,8 @@ public class MemberController {
 		System.out.println("ID: "+mb.getM_id()+"\nPW: "+mb.getM_pw());
 		boolean result=mm.access(mb);
 		if(result) {
-			System.out.println("성공");
 			return new ModelAndView("main").addObject("msg","login ok");
 		}else {
-			System.out.println("실패");
 			return new ModelAndView("home").addObject("msg","login Fail");
 		}
 	}

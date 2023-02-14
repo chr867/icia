@@ -3,9 +3,14 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- IMemberDao 전용 Mapper: 회원관련 sql -->
-<mapper namespace="com.board.icia.dao.IMemberDao">
+ 	<mapper namespace="com.board.icia.dao.IMemberDao">
 	<select id="access" resultType="boolean">
 		SELECT COUNT(*) FROM MEMBER WHERE M_ID=UPPER(#{m_id}) AND M_PW=UPPER(#{m_pw})
+	</select> 
+	
+<!-- <mapper namespace="memberMapper">
+	<select id="access" parameterType="com.board.icia.dto.MemberDto" resultType="boolean">
+		SELECT COUNT(*) FROM MEMBER WHERE M_ID=UPPER(#{m_id}) AND M_PW=UPPER(#{m_pw})
 	</select>
-
+ -->
 </mapper>
