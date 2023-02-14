@@ -1,10 +1,10 @@
 package com.board.icia.dao;
 
-import com.board.icia.dto.Member;
+import com.board.icia.dto.MemberDto;
 
 public interface IMemberDao {
 
-	boolean access(Member mb);
+	boolean access(MemberDto.access mb);
 	
 	
 }
