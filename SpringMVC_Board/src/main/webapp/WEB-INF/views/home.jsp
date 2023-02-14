@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>Home.jsp-로그인 페이지</h1>
+${msg}
 	<form action="/member/access" name="logFrm" method="post">
 		<table border="1">
 			<tr>
@@ -23,7 +24,7 @@
 				<td colspan="2" align="center" bgcolor="skyblue">com.board.icia</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="center"><a href="./joinFrm">회원가입</a></td>
+				<td colspan="2" align="center"><a href="/member/join">회원가입</a></td>
 			</tr>
 		</table>
 	</form>

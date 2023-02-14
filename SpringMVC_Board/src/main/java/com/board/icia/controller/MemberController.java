@@ -19,6 +19,23 @@ public class MemberController {
 	@Autowired
 	private MemberMM mm;
 	
+	@GetMapping(value="/join") //GetMapping = SELECT or Forwarding
+	public String joinFrm() {
+		return "joinFrm";
+	}
+	
+	@PostMapping(value="/join")
+	public ModelAndView joinFrm(MemberDto.join mb) {
+//		log.info("{}",mb);
+		boolean result=mm.join(mb);
+		if(result) {
+			return new ModelAndView("home").addObject("msg","join ok");
+		}else {
+			return new ModelAndView("joinFrm").addObject("msg","join Fail");
+			
+		}
+	}
+		
 	@PostMapping(value="/access")
 	public ModelAndView access(MemberDto.access mb) {
 		System.out.println("ID: "+mb.getM_id()+"\nPW: "+mb.getM_pw());
@@ -28,8 +45,7 @@ public class MemberController {
 		}else {
 			return new ModelAndView("home").addObject("msg","login Fail");
 		}
-	}
-	
+	}	
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(ModelAndView mav,MemberDto mb) {
