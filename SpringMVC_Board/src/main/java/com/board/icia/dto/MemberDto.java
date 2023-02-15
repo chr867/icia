@@ -21,5 +21,5 @@ public class MemberDto {
 	
 	private int m_point;
 	private String m_grade;
-
+	
 }

@@ -1,5 +1,6 @@
 package com.board.icia.controller;
 
+import java.lang.ProcessHandle.Info;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.board.icia.dto.MemberDto;
 import com.board.icia.service.MemberMM;
+import com.google.gson.Gson;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -81,11 +83,9 @@ public class MemberController {
 	 // attr.addFlashAttribute("member",member);
 	  //get방식만 가능
 		  //attr.addAttribute("mb",member);
-		  attr.addAttribute("m_id",member.getM_id());
-		  attr.addAttribute("m_name",member.getM_name());
-		  attr.addAttribute("m_point",member.getM_point());
-		  attr.addAttribute("m_grade",member.getM_grade());
-		  return new ModelAndView("redirect:/board/list");
+		  log.info("MC member: "+new Gson().toJson(member));//.getClass().getName());
+//		  attr.addAttribute("member",new Gson().toJson(member));
+		  return new ModelAndView("redirect:/board/list").addObject("member",new Gson().toJson(member));//.addObject("member",member);
 		  }else { 
 			  attr.addFlashAttribute("msg", "login Fail!!!");
 			  attr.addFlashAttribute("check", "2");	//회원가입성공:1, 로그인 실패:2

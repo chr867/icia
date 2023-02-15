@@ -18,7 +18,7 @@
 	<select id="getSecurityPw" parameterType="String" resultType="String">
 		SELECT M_PW FROM MEMBER WHERE M_ID=#{m_id}
 	</select>
-	<select id="getMemberInfo" parameterType="String" resultType="Member">
+	<select id="getMemberInfo" parameterType="String" resultType="member">
 		SELECT * FROM MINFO WHERE M_ID=#{m_id}
 	</select>
 </mapper>
