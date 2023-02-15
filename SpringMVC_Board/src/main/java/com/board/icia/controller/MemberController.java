@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.board.icia.dto.MemberDto;
 import com.board.icia.service.MemberMM;
@@ -20,6 +21,21 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Autowired
 	private MemberMM mm;
+	
+	@GetMapping("/main")
+	public String main() {
+		return "main";
+	}
+	
+	@GetMapping("/")
+	public String home() {
+		return "home";
+	}
+	
+	@GetMapping
+	public String index() {
+		return "index";
+	}
 	
 	@GetMapping(value="/join") //GetMapping = SELECT or Forwarding
 	public String joinFrm() {
@@ -34,30 +50,33 @@ public class MemberController {
 			return new ModelAndView("home").addObject("msg","join ok");
 		}else {
 			return new ModelAndView("joinFrm").addObject("msg","join Fail");
-			
 		}
 	}
 		
 	@PostMapping(value="/access")
-	public ModelAndView access(MemberDto.access mb, HttpSession session) {
+	public ModelAndView access(MemberDto.access mb, HttpSession session, RedirectAttributes attr) {
 		boolean result=mm.access(mb);
 		if(result) {
 			session.setAttribute("id", mb.getM_id());
-			return new ModelAndView("main").addObject("msg","login ok");
+//			attr.addAttribute("msg","login OK"); //Redirect 전 Session 영역에 저장, Request 객체에 저장 후 Session 삭제
+			attr.addFlashAttribute("msg","login OK"); //Session 영역에 저장, 1번 사용 후 삭제
+//			return new ModelAndView("main").addObject("msg","login Ok");
+			return new ModelAndView("redirect:/member/main");
+			//.addObject("msg","Login OK"); //Redirect 시 새로운 Request 객체에 속성 추가 (get 방식만 가능)
 		}else {
-			return new ModelAndView("home").addObject("msg","login Fail");
+			attr.addFlashAttribute("msg","login Fail");
+			return new ModelAndView("redirect:/member/");
 		}
 	}	
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+/*	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(ModelAndView mav,MemberDto mb) {
-//		log.info("로그");
-//		ModelAndView mav=mm.access(mb);
-//		mav.addObject("msg","MAV-OK").setViewName("home");
-//		return mav;
+		log.info("로그");
+		ModelAndView mav=mm.access(mb);
+		mav.addObject("msg","MAV-OK").setViewName("home");
+		return mav;
 
 		return "home";
-//		return new ModelAndView("home").addObject("msg","OK");
-	}
-	
+		return new ModelAndView("home").addObject("msg","OK");
+	}*/
 }

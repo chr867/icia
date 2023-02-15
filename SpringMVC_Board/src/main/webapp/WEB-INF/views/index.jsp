@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>main.jsp</h1>
-<h3>${id}님 ${msg}</h3>
+<h1>index.jsp</h1>
 </body>
 </html>

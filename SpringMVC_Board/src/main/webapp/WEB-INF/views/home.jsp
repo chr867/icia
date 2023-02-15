@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Home.jsp-로그인 페이지</h1>
-${msg}
+<h3>${msg}</h3>
 	<form action="/member/access" name="logFrm" method="post">
 		<table border="1">
 			<tr>

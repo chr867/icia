@@ -35,7 +35,7 @@ public class MemberMM {
 	}
 
 	public boolean join(MemberDto.join mb) {
-//		Enchoder(암호화)<--> Decoder(복호화)
+//		Encoder(암호화)<--> Decoder(복호화)
 //		스프링은 복호화 불가능
 		BCryptPasswordEncoder pwEncoder=new BCryptPasswordEncoder();
 		mb.setM_pw(pwEncoder.encode(mb.getM_pw())); //1111->암호화
