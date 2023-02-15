@@ -57,13 +57,14 @@ public class MemberController {
 		
 	@PostMapping(value="/access")
 	public ModelAndView access(MemberDto.access mb, HttpSession session, RedirectAttributes attr) {
-		boolean result=mm.access(mb);
-		if(result) {
-			session.setAttribute("id", mb.getM_id());
+		MemberDto.access member=mm.access(mb); //null이 나옴??
+		if(member!=null) {
+			session.setAttribute("id", member.getM_id());
 //			attr.addAttribute("msg","login OK"); //Redirect 전 Session 영역에 저장, Request 객체에 저장 후 Session 삭제
 			attr.addFlashAttribute("msg","login OK"); //Session 영역에 저장, 1번 사용 후 삭제
 //			return new ModelAndView("main").addObject("msg","login Ok");
-			return new ModelAndView("redirect:/board/list");
+			attr.addFlashAttribute("member",member);
+			return new ModelAndView("redirect:/board/list").addObject("member",member);
 			//.addObject("msg","Login OK"); //Redirect 시 새로운 Request 객체에 속성 추가 (get 방식만 가능)
 		}else {
 			attr.addFlashAttribute("msg","login Fail");

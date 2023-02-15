@@ -10,4 +10,6 @@ public interface IMemberDao {
 
 	String getSecurityPw(String m_id);
 
+	MemberDto.access getMemberInfo(String m_id);
+
 }

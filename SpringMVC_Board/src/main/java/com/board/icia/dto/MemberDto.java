@@ -17,6 +17,12 @@ public class MemberDto {
 	public static class access { //로그인용 DTO
 		private String m_id;
 		private String m_pw;
+		private String m_name;
+		private String m_birth;
+		private String m_addr;
+		private String m_phone;
+		private String m_grade;
+
 //		public MemberDto toEntity() {
 //			return Member.builder().m_id(m_id);
 //		}
