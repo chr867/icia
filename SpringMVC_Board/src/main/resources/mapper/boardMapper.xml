@@ -11,7 +11,7 @@
 <mapper namespace="com.board.icia.dao.IBoardDao">
 	<select id="getBoardList" parameterType="Integer" resultType="board">
 	<![CDATA[
-		SELECT * FROM NEW_BLIST WHERE RN >= #{pageNum}*10-9 AND RN <= #{pageNum}*10
+		SELECT * FROM BLIST WHERE RN >= #{pageNum}*10-9 AND RN <= #{pageNum}*10
 	]]>
 	</select>
 	
