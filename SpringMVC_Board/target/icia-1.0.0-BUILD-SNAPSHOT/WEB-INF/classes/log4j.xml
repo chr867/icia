@@ -38,23 +38,4 @@
 		<appender-ref ref="console" />
 	</root>
 	
-	<logger name="jdbc.resultsettable">
-		<level value="trace" />
-	</logger>
-	<logger name="jdbc.sqlonly">
-		<level value="info" />
-	</logger>
-	<logger name="jdbc.connection">
-		<level value="off" />
-	</logger>
-	<logger name="jdbc.audit">
-		<level value="off" />
-	</logger>
-	<logger name="jdbc.resultset">
-		<level value="off" />
-	</logger>
-	<logger name="jdbc.sqltiming">
-		<level value="off" />
-	</logger>
-	
 </log4j:configuration>

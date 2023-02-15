@@ -9,10 +9,42 @@
 <script src="https://code.jquery.com/jquery-3.6.3.js"
 	integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
 	crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function logout() {
+		$('#logoutFrm').submit();
+	}
+</script>
 </head>
 <body>
-	<h1>boardList.jsp</h1>
+	<h1>boardList.jsp --게시판 목록</h1>
+	<c:if test="${!empty id}">
+		<div align="right">
+			<form id="logoutFrm" action="/member/logout" method="post">
+				<a href="javascript:logout()">로그아웃</a>
 
+			</form>
+		</div>
+	</c:if>
+	
+	<table id="one_table">
+		<tr height="30">
+			<td width="80" bgcolor="pink" align="center">ID</td>
+			<td>${member.m_id}</td>
+		</tr>
+		<tr height="30">
+			<td width="80" bgcolor="pink" align="center">NAME</td>
+			<td>${member.m_name}</td>
+		</tr>
+		<tr height="30">
+			<td width="80" bgcolor="pink" align="center">GNAME</td>
+			<td>${member.m_grade}</td>
+		</tr>
+		<tr height="30">
+			<td width="80" bgcolor="pink" align="center">POINT</td>
+			<td>${member.m_point}</td>
+		</tr>
+	</table>
+	
 	<table>
 		<tr bgcolor="skyblue" height="30">
 			<th width="100">번호</th>
@@ -35,21 +67,5 @@
 			</tr>
 		</c:forEach>
 	</table>
-
-	<!--  로그아웃 버튼 -->
-	<c:if test="${!empty id}">
-		<div align="right">
-			<form id="logoutFrm" action="/member/logout" method="post">
-				<a href="javascript:logout()">logout</a>
-			</form>
-		</div>
-	</c:if>
-
-	<script type="text/javascript">
-logout=()=>{ //로그아웃 submit
-	$('#logoutFrm').submit();
-}
-
-</script>
 </body>
 </html>
