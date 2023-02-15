@@ -3,8 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-	<title>Home</title>
+<title>Home</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.js" 
+integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" 
+crossorigin="anonymous"></script>
+	
 </head>
+
 <body>
 <h1>Home.jsp-로그인 페이지</h1>
 <h3>${msg}</h3>
@@ -28,8 +34,23 @@
 			</tr>
 		</table>
 	</form>
+	
 <script type="text/javascript">
-
+	let check=${check}
+	console.log(check)
+	if(check==1){
+		Swal.fire({
+			icon:'success',
+			title:'회원가입 성공',
+			text:'로그인 해 주세요'
+		})
+	}else if(check==2){
+		Swal.fire({
+			icon:'error',
+			title:'로그인 실패',
+			text:'아이디 또는 비번 오류'
+		})
+	}
 </script>
 
 </body>

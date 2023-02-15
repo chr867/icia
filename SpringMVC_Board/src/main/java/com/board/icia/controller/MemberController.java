@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,8 +33,9 @@ public class MemberController {
 		return "home";
 	}
 	
-	@GetMapping
-	public String index() {
+	@GetMapping //member?val=10&str=hello
+	public String index(@RequestParam(required = false, defaultValue = "1") Integer val, @RequestParam(required = false) String str) {
+		log.info(val+","+str);
 		return "index";
 	}
 	
@@ -47,7 +49,7 @@ public class MemberController {
 //		log.info("{}",mb);
 		boolean result=mm.join(mb);
 		if(result) {
-			return new ModelAndView("home").addObject("msg","join ok");
+			return new ModelAndView("home").addObject("msg","join ok").addObject("check",1);
 		}else {
 			return new ModelAndView("joinFrm").addObject("msg","join Fail");
 		}
@@ -61,14 +63,29 @@ public class MemberController {
 //			attr.addAttribute("msg","login OK"); //Redirect 전 Session 영역에 저장, Request 객체에 저장 후 Session 삭제
 			attr.addFlashAttribute("msg","login OK"); //Session 영역에 저장, 1번 사용 후 삭제
 //			return new ModelAndView("main").addObject("msg","login Ok");
-			return new ModelAndView("redirect:/member/main");
+			return new ModelAndView("redirect:/board/list");
 			//.addObject("msg","Login OK"); //Redirect 시 새로운 Request 객체에 속성 추가 (get 방식만 가능)
 		}else {
 			attr.addFlashAttribute("msg","login Fail");
+			attr.addFlashAttribute("check",2);  //회원가입 성공:1, 로긴 실패:2
 			return new ModelAndView("redirect:/member/");
 		}
 	}	
 	
+	@PostMapping(value="/logout")
+	public String logout(HttpSession session) {
+		if(session.getAttribute("id")!=null) {
+			session.invalidate();
+			return "redirect:/member/";
+		}else {
+			log.info("로그인이 돼있지 않습니다"); //세션 타임아웃(30분,초기화)후 redirect 에러
+			return "forward:/member/";
+		}
+		
+	}
+}
+		
+
 /*	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(ModelAndView mav,MemberDto mb) {
 		log.info("로그");
@@ -79,4 +96,3 @@ public class MemberController {
 		return "home";
 		return new ModelAndView("home").addObject("msg","OK");
 	}*/
-}
