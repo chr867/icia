@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 1. parameterType(Alias) 1번만 사용, 생략가능 -->
+<!-- 2. select 태그만 resultType 명시 해야함. -->
+<!-- 3#{변수},#{필드명},#{key} -->
+<!-- 4.리스트 반환시 리스트 요소 <타입>만 명시 -->
+<!-- IBoardDao 전용 Mapper: 게시글관련 sql -->
+<mapper namespace="com.board.icia.dao.IBoardDao">
+	<select id="getBoardList" parameterType="Integer" resultType="board">
+		<![CDATA[
+		SELECT * FROM NEW_BLIST WHERE RN>=#{pageNum}*10-9 AND RN<=#{pageNum}*10
+		]]>
+	</select>
+
+</mapper>

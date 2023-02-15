@@ -17,20 +17,20 @@ public class MemberMM {
 //	private MemberDao mDao;
 	private IMemberDao mDao;
 	
-	public boolean access(MemberDto.access mb) {
+	public MemberDto.access access(MemberDto.access mb) {
 		//복호화는 안되지만 비교는 가능
 		BCryptPasswordEncoder pwEncoder=new BCryptPasswordEncoder();
 		if(mDao.getSecurityPw(mb.getM_id())!= null){
 			if(pwEncoder.matches(mb.getM_pw(),mDao.getSecurityPw(mb.getM_id()))) {
 				log.info("로그인 성공");
-				return true;
+				return mDao.getMemberInfo(mb.getM_id());
 			}else {
 				log.info("비번 오류");
-				return false;
+				return null;
 			}
 		}else {
 			log.info("아이디 오류");
-			return false;
+			return null;
 		}
 	}
 
