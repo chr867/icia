@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;SpringMVC_Board/src/main/java/com/board/icia/service/BoardMM.java~사망&apos;" deleteContents="false" description="Delete resource &apos;SpringMVC_Board/src/main/java/com/board/icia/service/BoardMM.java~사망&apos;" element1="/SpringMVC_Board/src/main/java/com/board/icia/service/BoardMM.java~사망" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1676447088139"/>
+</session>
