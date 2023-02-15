@@ -1,9 +1,16 @@
 package com.board.icia.controller;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,84 +23,83 @@ import com.board.icia.dto.MemberDto;
 import com.board.icia.service.MemberMM;
 
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Controller
-@RequestMapping("/member") //공통 URL
+@RequestMapping("/member")
 public class MemberController {
 	@Autowired
-	private MemberMM mm;
+	private MemberMM mm; 
 	
 	@GetMapping("/main")
 	public String main() {
 		return "main";
 	}
-	
 	@GetMapping("/")
 	public String home() {
 		return "home";
 	}
-	
-	@GetMapping //member?val=10&str=hello
-	public String index(@RequestParam(required = false, defaultValue = "1") Integer val, @RequestParam(required = false) String str) {
+	@GetMapping //member?val=10&str=hello 
+	public String index(@RequestParam(required = false) Integer val, @RequestParam String str) {
 		log.info(val+","+str);
 		return "index";
 	}
 	
-	@GetMapping(value="/join") //GetMapping = SELECT or Forwarding
-	public String joinFrm() {
-		return "joinFrm";
-	}
-	
-	@PostMapping(value="/join")
-	public ModelAndView joinFrm(MemberDto.join mb) {
-//		log.info("{}",mb);
+	@PostMapping(value = "/join")
+	public ModelAndView join(MemberDto mb, RedirectAttributes attr) {
 		boolean result=mm.join(mb);
 		if(result) {
-			return new ModelAndView("home").addObject("msg","join ok").addObject("check",1);
+			return new ModelAndView("home").addObject("msg", "join OK").addObject("check", "1");
 		}else {
-			return new ModelAndView("joinFrm").addObject("msg","join Fail");
+			return new ModelAndView("join").addObject("msg", "join Fail").addObject("check", "2"); 
 		}
 	}
-		
-	@PostMapping(value="/access")
-	public ModelAndView access(MemberDto.access mb, HttpSession session, RedirectAttributes attr) {
-		MemberDto.access member=mm.access(mb); //null이 나옴??
-		if(member!=null) {
-			session.setAttribute("id", member.getM_id());
-//			attr.addAttribute("msg","login OK"); //Redirect 전 Session 영역에 저장, Request 객체에 저장 후 Session 삭제
-			attr.addFlashAttribute("msg","login OK"); //Session 영역에 저장, 1번 사용 후 삭제
-//			return new ModelAndView("main").addObject("msg","login Ok");
-			attr.addFlashAttribute("member",member);
-			return new ModelAndView("redirect:/board/list").addObject("member",member);
-			//.addObject("msg","Login OK"); //Redirect 시 새로운 Request 객체에 속성 추가 (get 방식만 가능)
-		}else {
-			attr.addFlashAttribute("msg","login Fail");
-			attr.addFlashAttribute("check",2);  //회원가입 성공:1, 로긴 실패:2
-			return new ModelAndView("redirect:/member/");
-		}
-	}	
-	
-	@PostMapping(value="/logout")
+	//로그아웃
+	@PostMapping(value = "/logout")
 	public String logout(HttpSession session) {
 		if(session.getAttribute("id")!=null) {
 			session.invalidate();
 			return "redirect:/member/";
 		}else {
-			log.info("로그인이 돼있지 않습니다"); //세션 타임아웃(30분,초기화)후 redirect 에러
-			return "forward:/member/";
+			log.info("접속 30분후...세션초기화"); //세션타임아웃(30분,초기화)후 redirect에러남
+			return "forward:/member/"; //forward가 처리되지 않지만 에러는 안남
 		}
 		
 	}
+	
+	  @PostMapping(value = "/access")
+	  public ModelAndView access(MemberDto mb, HttpSession session, RedirectAttributes attr) {
+	  MemberDto member=mm.access(mb); 
+	  if(member !=null) { 
+		  session.setAttribute("id", mb.getM_id());//로그인 마킹
+		  //redirect전 session영역에 저장한 뒤 request객체에 저장후 session영역 삭제 함
+		  //attr.addAttribute("msg", "login OK!!!"); //여러번사용가능
+		  //session영역에 저장한뒤 한번 사용하고 삭제
+		  //attr.addFlashAttribute("msg", "login OK!!!"); //한번만 사용가능
+		 // attr.addFlashAttribute("check", "1"); //한번만 사용가능
+		  //Redirect 시 새로운 request객체에 속성값을 저장한다.
+	 // attr.addFlashAttribute("member",member);
+	  //get방식만 가능
+		  //attr.addAttribute("mb",member);
+		  attr.addAttribute("m_id",member.getM_id());
+		  attr.addAttribute("m_name",member.getM_name());
+		  attr.addAttribute("m_point",member.getM_point());
+		  attr.addAttribute("m_grade",member.getM_grade());
+		  return new ModelAndView("redirect:/board/list");
+		  }else { 
+			  attr.addFlashAttribute("msg", "login Fail!!!");
+			  attr.addFlashAttribute("check", "2");	//회원가입성공:1, 로그인 실패:2
+			  
+			  return new ModelAndView("redirect:/member/");  //home.jsp
+		 // return new ModelAndView("home").addObject("msg", "login Fail"); 
+		  } 
+	  }
+	 	
+	@GetMapping("/join")
+	public String join() {
+		return "join";
+	}
+	
+	
+	
 }
-		
-
-/*	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(ModelAndView mav,MemberDto mb) {
-		log.info("로그");
-		ModelAndView mav=mm.access(mb);
-		mav.addObject("msg","MAV-OK").setViewName("home");
-		return mav;
-
-		return "home";
-		return new ModelAndView("home").addObject("msg","OK");
-	}*/
